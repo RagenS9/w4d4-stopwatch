@@ -26,17 +26,23 @@
     // *Change button to say "Start"
 // 6. Add comments to your code explaining how it's working.
 
+//I made timer and button variables so I could just refer to them as timer and button and not #timer and #button all over the place. Jeff liked this plan and said that the document part had to go here, too; that I couldn't just leave the variables empty. Is that right? 
 var timer = document.querySelector('#timer')
 var button = document.querySelector('#start');
-//I made these variables so I could just refer to them as timer and button and not #timer and #button 
 
+
+//tried to make these double-digit 00s, but couldn't pull it off. Though I am pretty enamored with the way it pulses each second without that extra 0 placeholder.
 var ms = 0;
 var s = 0;
 var m = 0;
 
-button.addEventListener('click', function(){
+var running; // made this in case the trick to the pausing thing was turning off the running function for a while. 
+
+running = button.addEventListener('click', function(){
     setInterval (handlesStartButton, 10)
-}); //putting the function here ties the timer to the event of click, instead of it just starting to count on its own.
+}); //putting the function here ties the timer to the event of click, instead of it just starting to count on its own. HOWEVER, something is making it double its speed every time you click the button (no matter if the Pause code is commented out or running).
+
+// stopPropagation(); // Tried this, because of what an online article said. I thought it might have something to do with why it was doubling itself, but it didn't stop it from doubling. The article said: At any point, an event handler can call the stopPropagation method on the event object to prevent handlers “further up” from receiving the event. This can be useful when, for example, you have a button inside another clickable element and you don’t want clicks on the button to activate the outer element’s click behavior.
 
 function handlesStartButton() {
     ms++;
@@ -51,17 +57,20 @@ function handlesStartButton() {
     else if (s >= 59) {
         m++
         s=0
-    }
+    };
 
     button.innerHTML = 'Pause';
+    // pausing(); //call the pausing function here?? Nope.
 
-    // if (button.innerHTML==="Pause") {
-    //     button.addEventListener('click', function(){
-    //         clearInterval;
-    //     })
-    // }
+// trying to make the pausing thing happen within the original function?   Nope.
+    if (button.innerHTML==="Pause") {
+        // button.removeEventListener('click', running); // thought maybe we needed to cancel out the original click, but no dice.
+        button.addEventListener('click', function(){
+            clearInterval;
+        })
+    }
 
-    // else {
+    // else if {
 
     // };
 }
@@ -73,3 +82,14 @@ function setColor() {
          var blue = Math.round(Math.random() * 255);
          timer.style.color = `rgb(${red}, ${green}, ${blue})`;
 }
+
+//pause function? tried putting it here as a function and calling it up there.  no go.
+// function pausing() {
+//     if (button.innerHTML==="Pause") {
+//         button.removeEventListener('click', running); // thought maybe we needed to cancel out the original click, so added running variable. doesn't seem to have helped.
+//         button.addEventListener('click', function(){
+//             clearInterval;
+//         })
+//     }
+
+// }
